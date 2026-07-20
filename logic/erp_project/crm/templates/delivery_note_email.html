@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delivery Note {{ dn.dn_id }}</title>
+</head>
+<body>
+    <h1>Delivery Note {{ dn.dn_id }}</h1>
+    <p>Dear Customer,</p>
+    <p>Your delivery note details are below:</p>
+    <p><strong>Date:</strong> {{ dn.delivery_date }}</p>
+    <p><strong>Status:</strong> {{ dn.status }}</p>
+
+    <h2>Items</h2>
+    <table border="1">
+        <tr><th>Product</th><th>Qty</th></tr>
+        {% for item in items %}
+        <tr><td>{{ item.product_name }}</td><td>{{ item.quantity }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <p>Thank you.</p>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<p>Dear {{ asset_sale.buyer_name }},</p>
+
+<p>
+Your Asset Sale document
+<strong>{{ asset_sale.asset_sale_no }}</strong>
+has been generated successfully.
+</p>
+
+<p>
+<strong>Asset Name:</strong>
+{{ asset_sale.asset_name }}
+</p>
+
+<p>
+<strong>Sale Date:</strong>
+{{ asset_sale.sale_date|date:"d M Y" }}
+</p>
+
+<p>
+<strong>Sale Value:</strong>
+{{ asset_sale.sale_value|floatformat:2 }}
+</p>
+
+<p>
+<strong>Status:</strong>
+{{ asset_sale.status }}
+</p>
+
+<p>
+Thank you.
+</p>
+
+<p>
+Best regards,<br>
+Your Company
+</p>

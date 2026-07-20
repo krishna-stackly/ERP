@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delivery Note Return {{ dnr.dnr_id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; font-size: 12px; color: #333; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+        .header h1 { margin: 0; color: #2c3e50; }
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+        .info-table td { padding: 8px; vertical-align: top; }
+        table.items { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        table.items th, table.items td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        table.items th { background-color: #f4f6f9; }
+        .footer { margin-top: 50px; text-align: center; font-size: 10px; color: #777; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DELIVERY NOTE RETURN</h1>
+        <p><strong>DNR ID:</strong> {{ dnr.dnr_id }}</p>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td><strong>From:</strong> Your Company Name</td>
+            <td><strong>To:</strong> {{ dnr.customer.name }}</td>
+        </tr>
+        <tr>
+            <td><strong>Date:</strong> {{ dnr.dnr_date|date:"d M Y" }}</td>
+            <td><strong>Invoice Return Ref:</strong> {{ dnr.invoice_return.invoice_return_id|default:"N/A" }}</td>
+        </tr>
+    </table>
+
+    <h3>Returned Items</h3>
+    <table class="items">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>UOM</th>
+                <th>Invoiced Qty</th>
+                <th>Returned Qty</th>
+                <th>Serial Nos</th>
+                <th>Reason</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.uom|default:"-" }}</td>
+                <td>{{ item.invoiced_qty }}</td>
+                <td>{{ item.returned_qty_cus }}</td>
+                <td>{{ item.serial_numbers.all|join:", " }}</td>
+                <td>{{ item.return_reason|default:"-" }}</td>
+                <td>{{ item.total|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Generated on {{ now|date:"d M Y H:i" }} | Thank you for your business
+    </div>
+</body>
+</html>

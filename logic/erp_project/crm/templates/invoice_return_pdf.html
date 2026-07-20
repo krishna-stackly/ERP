@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice Return {{ ir.invoice_return_id }}</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; margin: 40px; font-size: 12px; color: #333; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+        .header h1 { margin: 0; color: #2c3e50; font-size: 24px; }
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+        .info-table td { padding: 8px; vertical-align: top; }
+        .info-left { width: 50%; }
+        .info-right { width: 50%; text-align: right; }
+        table.items { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        table.items th, table.items td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        table.items th { background-color: #f4f6f9; color: #2c3e50; font-weight: bold; }
+        .summary { margin-top: 30px; text-align: right; }
+        .summary table { width: 45%; margin-left: auto; border-collapse: collapse; }
+        .summary td { padding: 8px; border-top: 1px solid #eee; }
+        .refund-total { font-weight: bold; font-size: 14px; color: #c0392b; border-top: 2px solid #c0392b; }
+        .footer { margin-top: 50px; text-align: center; font-size: 10px; color: #777; border-top: 1px solid #eee; padding-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>INVOICE RETURN</h1>
+        <p><strong>Return ID:</strong> {{ ir.invoice_return_id }}</p>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td class="info-left">
+                <strong>From:</strong><br>
+                Your Company Name<br>
+                Address Line 1, City, State ZIP<br>
+                Email: support@yourcompany.com<br>
+                Phone: +91-XXXXXXXXXX
+            </td>
+            <td class="info-right">
+                <strong>To:</strong><br>
+                {{ ir.customer.name }}<br>
+                {{ ir.customer.address|linebreaksbr|default:"N/A" }}<br>
+                Email: {{ ir.email_id|default:"N/A" }}<br>
+                Phone: {{ ir.phone_number|default:"N/A" }}<br>
+                Contact: {{ ir.contact_person|default:"N/A" }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="info-table">
+        <tr>
+            <td><strong>Invoice Reference:</strong> {{ ir.invoice.invoice_id }}</td>
+            <td><strong>Return Date:</strong> {{ ir.invoice_return_date|date:"d M Y" }}</td>
+            <td><strong>Customer Ref No:</strong> {{ ir.customer_ref_no|default:"N/A" }}</td>
+        </tr>
+    </table>
+
+    <h3>Returned Items</h3>
+    <table class="items">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>UOM</th>
+                <th>Invoiced Qty</th>
+                <th>Returned Qty</th>
+                <th>Serial Nos</th>
+                <th>Reason</th>
+                <th>Unit Price</th>
+                <th>Tax (%)</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.product_name }} ({{ item.product.product_id|default:"N/A" }})</td>
+                <td>{{ item.uom|default:"-" }}</td>
+                <td>{{ item.invoiced_qty }}</td>
+                <td>{{ item.returned_qty_cus }}</td>
+                <td>{{ item.serial_numbers.all|join:", " }}</td>
+                <td>{{ item.return_reason|truncatechars:50|default:"-" }}</td>
+                <td>{{ item.unit_price|floatformat:2 }}</td>
+                <td>{{ item.tax_rate|floatformat:2 }}</td>
+                <td>{{ item.total|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <table>
+            <tr><td>Original Grand Total:</td><td>{{ ir.original_grand_total|floatformat:2 }}</td></tr>
+            <tr><td>Return Subtotal:</td><td>{{ ir.return_subtotal|floatformat:2 }}</td></tr>
+            <tr><td>Global Discount ({{ ir.global_discount }}%):</td><td>- {{ ir.global_discount_amount|floatformat:2 }}</td></tr>
+            <tr><td>Rounding Adjustment:</td><td>{{ ir.rounding_adjustment|floatformat:2 }}</td></tr>
+            <tr><td class="refund-total"><strong>Amount to Refund:</strong></td><td class="refund-total">{{ ir.amount_to_refund|floatformat:2 }}</td></tr>
+        </table>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <strong>Return Reason / Notes:</strong><br>
+        {% for item in items %}
+            {% if item.return_reason %}
+            - {{ item.product_name }}: {{ item.return_reason }}<br>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="footer">
+        Thank you for your business | Generated on {{ now|date:"d M Y H:i" }} | Your Company Name
+    </div>
+</body>
+</html>

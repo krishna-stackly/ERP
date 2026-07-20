@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Return {{ sr.SRN_ID }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        h1 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Stock Return {{ sr.SRN_ID }}</h1>
+    <p>Dear Team,</p>
+    <p>Stock Return details are below:</p>
+
+    <p><strong>Return Date:</strong> {{ sr.return_date|date:"d M Y" }}</p>
+    <p><strong>PO Reference:</strong> {{ sr.po_reference.PO_ID|default:"N/A" }}</p>
+    <p><strong>GRN Reference:</strong> {{ sr.grn_reference.GRN_ID|default:"N/A" }}</p>
+    <p><strong>Supplier:</strong> {{ sr.supplier.supplier_name|default:"N/A" }}</p>
+    <p><strong>Amount to Recover:</strong> {{ sr.amount_to_recover|floatformat:2 }}</p>
+
+    <h2>Line Items</h2>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Qty Returned</th>
+            <th>Return Reason</th>
+            <th>Total</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.qty_returned }}</td>
+            <td>{{ item.return_reason|default:"-" }}</td>
+            <td>{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>Thank you.</p>
+    <p>Best regards,<br>Stackly ERP Team</p>
+</body>
+</html>

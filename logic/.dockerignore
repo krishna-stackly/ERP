@@ -1,0 +1,28 @@
+# Never bake real secrets into the image — env vars are supplied at
+# container runtime instead (docker run -e, docker-compose environment:,
+# or K8s Secrets/ConfigMaps).
+.env
+.env.local
+.env.*
+!.env.example
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local dev DB artifact, unused now that DATABASES points at MySQL
+db.sqlite3
+
+venv/
+.venv/
+
+.git/
+.github/
+
+media/
+
+# Editor/OS cruft
+.vscode/
+.idea/
+.DS_Store

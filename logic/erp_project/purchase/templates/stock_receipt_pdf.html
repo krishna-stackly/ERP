@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Receipt {{ receipt.GRN_ID }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12pt; margin: 40px; }
+        h1 { text-align: center; color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .summary { margin-top: 30px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Stock Receipt {{ receipt.GRN_ID }}</h1>
+    <p><strong>Received Date:</strong> {{ receipt.received_date|date:"d M Y" }}</p>
+    <p><strong>PO Reference:</strong> {{ receipt.po_reference.PO_ID|default:"N/A" }}</p>
+    <p><strong>Supplier:</strong> {{ receipt.supplier.supplier_name|default:"N/A" }}</p>
+    <p><strong>Supplier DN No:</strong> {{ receipt.supplier_dn_no|default:"-" }}</p>
+    <p><strong>Supplier Invoice No:</strong> {{ receipt.supplier_invoice_no|default:"-" }}</p>
+    <p><strong>Received By:</strong> {{ received_by }}</p>
+    <p><strong>QC Done By:</strong> {{ qc_done_by }}</p>
+
+    <h2>Line Items</h2>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Product ID</th>
+            <th>UOM</th>
+            <th>Qty Ordered</th>
+            <th>Qty Received</th>
+            <th>Accepted Qty</th>
+            <th>Rejected Qty</th>
+            <th>Qty Returned</th>
+            <th>Unit Price</th>
+            <th>Tax (%)</th>
+            <th>Discount (%)</th>
+            <th>Total</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.product_id }}</td>
+            <td>{{ item.uom }}</td>
+            <td>{{ item.qty_ordered }}</td>
+            <td>{{ item.qty_received }}</td>
+            <td>{{ item.accepted_qty }}</td>
+            <td>{{ item.rejected_qty }}</td>
+            <td>{{ item.qty_returned }}</td>
+            <td>{{ item.unit_price|floatformat:2 }}</td>
+            <td>{{ item.tax_rate|floatformat:2 }}</td>
+            <td>{{ item.discount_rate|floatformat:2 }}</td>
+            <td>{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="summary">
+        <p>Total Items: {{ items|length }}</p>
+        <p>Generated on {{ now|date:"d M Y H:i" }} by {{ request.user.get_full_name }}</p>
+    </div>
+</body>
+</html>

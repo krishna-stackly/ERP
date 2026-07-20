@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice {{ invoice.invoice_id }}</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; margin: 40px; font-size: 12px; color: #333; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { margin: 0; color: #2c3e50; }
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .info-table td { padding: 8px; vertical-align: top; }
+        .info-left { width: 50%; }
+        .info-right { width: 50%; text-align: right; }
+        table.items { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        table.items th, table.items td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        table.items th { background-color: #f4f6f9; color: #2c3e50; }
+        .summary { margin-top: 30px; text-align: right; }
+        .summary table { width: 40%; margin-left: auto; border-collapse: collapse; }
+        .summary td { padding: 8px; border-top: 1px solid #eee; }
+        .grand-total { font-weight: bold; font-size: 14px; border-top: 2px solid #2c3e50; }
+        .footer { margin-top: 50px; text-align: center; font-size: 10px; color: #777; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>INVOICE</h1>
+        <p><strong>Invoice ID:</strong> {{ invoice.invoice_id }}</p>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td class="info-left">
+                <strong>From:</strong><br>
+                Your Company Name<br>
+                Address Line 1<br>
+                City, State ZIP<br>
+                Email: company@example.com<br>
+                Phone: +91-XXXXXXXXXX
+            </td>
+            <td class="info-right">
+                <strong>To:</strong><br>
+                {{ invoice.customer.name }}<br>
+                {{ invoice.billing_address|linebreaksbr }}<br>
+                Email: {{ invoice.email_id }}<br>
+                Phone: {{ invoice.phone_number }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="info-table">
+        <tr>
+            <td><strong>Invoice Date:</strong> {{ invoice.invoice_date|date:"d M Y" }}</td>
+            <td><strong>Due Date:</strong> {{ invoice.due_date|date:"d M Y" }}</td>
+            <td><strong>Payment Terms:</strong> {{ invoice.payment_terms }}</td>
+        </tr>
+    </table>
+
+    <h3>Items</h3>
+    <table class="items">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Tax (%)</th>
+                <th>Discount (%)</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.product_name }} ({{ item.product.product_id }})</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.unit_price|floatformat:2 }}</td>
+                <td>{{ item.tax_rate|floatformat:2 }}</td>
+                <td>{{ item.discount_rate|floatformat:2 }}</td>
+                <td>{{ item.total|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <table>
+            <tr><td>Subtotal:</td><td>{{ invoice.subtotal|floatformat:2 }}</td></tr>
+            <tr><td>Global Discount ({{ invoice.global_discount }}%):</td><td>- {{ invoice.global_discount_amount|floatformat:2 }}</td></tr>
+            <tr><td>Tax Summary:</td><td>{{ invoice.tax_summary|floatformat:2 }}</td></tr>
+            <tr><td>Shipping Charges:</td><td>{{ invoice.shipping_charges|floatformat:2 }}</td></tr>
+            <tr><td>Rounding Adjustment:</td><td>{{ invoice.rounding_adjustment|floatformat:2 }}</td></tr>
+            <tr><td><strong>Grand Total:</strong></td><td class="grand-total">{{ invoice.grand_total|floatformat:2 }}</td></tr>
+            <tr><td>Balance Due:</td><td><strong>{{ invoice.balance_due|floatformat:2 }}</strong></td></tr>
+        </table>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <strong>Terms & Conditions:</strong><br>
+        {{ invoice.terms_conditions|linebreaksbr }}
+    </div>
+
+    <div class="footer">
+        Thank you for your business! | Generated on {{ now|date:"d M Y H:i" }}
+    </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+product_id,product_name,product_type,category,status,stock_level,price
+101,Classic Chair,Furniture,Living Room,active,25,49.99
+102,Modern Desk,Furniture,Office,active,10,129.50
+103,LED Lamp,Lighting,Bedroom,inactive,0,19.75
+104,Wireless Mouse,Electronics,Accessories,active,150,24.00
+105,Cotton T-Shirt,Apparel,Clothing,active,75,15.00
+106,Stainless Steel Bottle,Kitchen,Drinkware,active,200,12.49
+107,Gaming Keyboard,Electronics,Accessories,active,40,89.99
+108,Ceramic Vase,Decor,Home Decor,inactive,0,34.95
+109,Yoga Mat,Fitness,Exercise,active,60,22.00
+110,Noise-Cancel Headphones,Electronics,Audio,active,30,199.99

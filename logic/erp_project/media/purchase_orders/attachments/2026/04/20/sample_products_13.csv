@@ -1,0 +1,11 @@
+name,product_type,unit_price,quantity,stock_level,status,product_usage
+Classic Chair,Goods,49.99,25,25,Active,Purchase
+Modern Desk,Goods,129.50,10,10,Active,Purchase
+LED Lamp,Goods,19.75,5,5,Inactive,Purchase
+Wireless Mouse,Goods,24.00,150,150,Active,Sale
+Cotton T-Shirt,Goods,15.00,75,75,Active,Sale
+Stainless Steel Bottle,Goods,12.49,200,200,Active,Sale
+Gaming Keyboard,Goods,89.99,40,40,Active,Purchase
+Ceramic Vase,Goods,34.95,5,5,Inactive,Sale
+Yoga Mat,Goods,22.00,60,60,Active,Purchase
+Noise-Cancel Headphones,Goods,199.99,30,30,Active,Sale

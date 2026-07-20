@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Credit Note {{ crn.crn_id }}</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CREDIT NOTE</h1>
+        <p><strong>CRN ID:</strong> {{ crn.crn_id }}</p>
+        <p><strong>Date:</strong> {{ crn.credit_note_date|date:"d M Y" }}</p>
+    </div>
+
+    <p><strong>Customer:</strong> {{ crn.customer.name }}</p>
+    <p><strong>Invoice Ref:</strong> {{ crn.invoice.invoice_id|default:"N/A" }}</p>
+
+    <h3>Returned Items</h3>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Qty Returned</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.returned_qty }}</td>
+            <td>{{ item.unit_price|floatformat:2 }}</td>
+            <td>{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><strong>Total Credit:</strong> {{ crn.invoice_total|floatformat:2 }}</p>
+</body>
+</html>

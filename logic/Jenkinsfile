@@ -1,0 +1,106 @@
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+
+    environment {
+        DOCKER_BACKEND = "stacklydevops/stackly_qa_erp_backend:latest"
+        DOCKER_FRONTEND = "stacklydevops/stackly_qa_erp_frontend:latest"
+        QA_DIR = "/var/lib/jenkins/erp-qa"
+    }
+
+    stages {
+
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Checkout Backend') {
+            steps {
+                dir('backend') {
+                    git branch: 'Qa',
+                        url: 'https://github.com/thestackly/stackly-erp-backend.git',
+                        credentialsId: 'Github_acess'
+                }
+            }
+        }
+
+        stage('Checkout Frontend') {
+            steps {
+                dir('frontend') {
+                    git branch: 'Qa',
+                        url: 'https://github.com/thestackly/stackly-erp-frontend.git',
+                        credentialsId: 'Github_acess'
+                }
+            }
+        }
+
+        stage('Build & Push Images') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh """
+                    echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+
+                    docker build -t ${DOCKER_BACKEND} backend
+                    docker push ${DOCKER_BACKEND}
+
+                    docker build -t ${DOCKER_FRONTEND} frontend
+                    docker push ${DOCKER_FRONTEND}
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to QA (Local)') {
+            steps {
+                dir("${QA_DIR}") {
+                    sh """
+                    docker compose pull
+                    docker compose up -d
+                    docker compose exec -T backend python3 /app/erp_project/manage.py migrate --noinput
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            emailext(
+                subject: "✅ QA Deployment Successful",
+                body: """
+QA Deployment Completed Successfully.
+
+Backend Image: ${DOCKER_BACKEND}
+Frontend Image: ${DOCKER_FRONTEND}
+
+URL: http://13.232.223.6
+""",
+                to: "vamshivasa94@gmail.com"
+            )
+        }
+
+        failure {
+            emailext(
+                subject: "❌ QA Deployment Failed",
+                body: """
+QA Deployment Failed.
+
+Check Logs:
+${env.BUILD_URL}console
+""",
+                to: "vamshivasa94@gmail.com"
+            )
+        }
+    }
+}

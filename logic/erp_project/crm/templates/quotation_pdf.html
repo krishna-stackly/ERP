@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quotation {{ quotation.quotation_id }}</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        color: #333;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 2px solid #444;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: 26px;
+        font-weight: bold;
+    }
+
+    .section {
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th {
+        background: #f5f5f5;
+        font-weight: bold;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .right { text-align: right; }
+    .center { text-align: center; }
+
+    .totals {
+        width: 40%;
+        margin-left: auto;
+        margin-top: 20px;
+    }
+
+    .totals td {
+        border: none;
+        padding: 5px;
+    }
+
+    .grand-total {
+        font-size: 16px;
+        font-weight: bold;
+        border-top: 2px solid #000;
+    }
+
+    .muted {
+        color: #777;
+        font-size: 12px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div>
+        <div class="title">QUOTATION</div>
+        <div class="muted">Quotation ID: {{ quotation.quotation_id }}</div>
+        <div class="muted">Date: {{ quotation.quotation_date }}</div>
+    </div>
+
+    <div>
+        <strong>Status:</strong> {{ quotation.status }}<br>
+        <strong>Expiry:</strong> {{ quotation.expiry_date|default:"N/A" }}
+    </div>
+</div>
+
+<div class="section">
+    <strong>Customer</strong><br>
+    {{ quotation.customer.first_name }} {{ quotation.customer.last_name }}<br>
+    {{ quotation.customer.company_name }}<br>
+    {{ quotation.customer.email }}<br>
+    {{ quotation.customer.phone_number }}
+</div>
+
+<div class="section">
+    <strong>Details</strong><br>
+    Sales Rep: {{ quotation.sales_rep|default:"N/A" }}<br>
+    PO Reference: {{ quotation.customer_po_reference|default:"N/A" }}<br>
+    Payment Terms: {{ quotation.payment_terms|default:"N/A" }}<br>
+    Currency: {{ quotation.currency }}
+</div>
+
+<div class="section">
+    <strong>Items</strong>
+    <table>
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>UOM</th>
+            <th class="right">Unit Price</th>
+            <th class="right">Discount %</th>
+            <th class="right">Tax %</th>
+            <th class="center">Qty</th>
+            <th class="right">Total</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for item in quotation.items.all %}
+        <tr>
+            <td>{{ item.product_name }} ({{ item.product_id_display }})</td>
+            <td>{{ item.uom.name }}</td>
+            <td class="right">{{ item.unit_price }}</td>
+            <td class="right">{{ item.discount }}</td>
+            <td class="right">{{ item.tax_rate }}</td>
+            <td class="center">{{ item.quantity }}</td>
+            <td class="right">{{ item.total }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="center">No items</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<table class="totals">
+    <tr>
+        <td>Subtotal</td>
+        <td class="right">{{ quotation.subtotal }}</td>
+    </tr>
+    <tr>
+        <td>Tax</td>
+        <td class="right">{{ quotation.tax_summary }}</td>
+    </tr>
+    <tr>
+        <td>Shipping</td>
+        <td class="right">{{ quotation.shipping_charges }}</td>
+    </tr>
+    <tr>
+        <td>Rounding</td>
+        <td class="right">{{ quotation.rounding_adjustment }}</td>
+    </tr>
+    <tr class="grand-total">
+        <td>Grand Total</td>
+        <td class="right">{{ quotation.grand_total }}</td>
+    </tr>
+</table>
+
+<div class="section">
+    <strong>Comments</strong>
+    {% for comment in quotation.comments.all %}
+        <p class="muted">
+            {{ comment.comment_by }} — {{ comment.timestamp }}
+        </p>
+        <p>{{ comment.comment }}</p>
+    {% empty %}
+        <p class="muted">No comments</p>
+    {% endfor %}
+</div>
+
+</body>
+</html>

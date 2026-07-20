@@ -1,0 +1,418 @@
+.debitNote-container {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  overflow: scroll;
+  background: rgba(253, 253, 253, 1);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.debitNote-container::-webkit-scrollbar {
+  display: none;
+}
+.debitNote-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.debitNote-header > p {
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(35, 78, 112, 1);
+}
+.debitNote-header > button {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 14px;
+  background: #234e70;
+  color: #fff;
+  border-radius: 12px;
+  border: 0px;
+  min-width: 123px;
+}
+/* search box */
+.debitNote-search-box {
+  cursor: pointer;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  gap: 10px;
+  border-radius: 40px;
+  width: 100%;
+  border: 2px solid rgba(217, 217, 217, 1);
+}
+.debitNote-search-box:focus {
+  border: 2px solid rgba(35, 78, 112, 1);
+}
+.debitNote-search-box > label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.debitNote-search-logo {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  fill: rgba(192, 192, 192, 1);
+}
+.debitNote-search-box > input {
+  width: 95%;
+  border: 0px;
+  background: transparent;
+}
+.debitNote-search-box > input:focus {
+  outline: none;
+}
+.debitNote-search-box > input::placeholder {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(176, 176, 176, 1);
+}
+.debitNote-clearfilter {
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(35, 78, 112, 1);
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.debitNote-clearfilter > p {
+  width: max-content;
+  cursor: pointer;
+}
+.debitNote-search-category {
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.debitNote-input-box {
+  flex: 1;
+  display: flex;
+  gap: 3px;
+  flex-direction: column;
+  min-width: 185px;
+}
+.debitNote-input-box > label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(42, 42, 42, 1);
+}
+.debitNote-input-box > input,
+.debitNote-input-box > select,
+.debitNote-input-box > nav {
+  border: 2px solid rgba(35, 78, 112, 1);
+  border-radius: 10px;
+  color: rgba(1, 19, 52, 1);
+  font-size: 14px;
+  font-weight: 400;
+  background: rgba(255, 255, 255, 1);
+  padding: 7px 15px;
+  cursor: pointer;
+}
+.debitNote-input-box > nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.debitNote-input-box > nav > div {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+.debitNote-input-box > nav > div > span {
+  color: rgba(176, 176, 176, 1);
+  font-size: 14px;
+  font-weight: 400;
+  width: 36px;
+}
+.debitNote-date {
+  flex: 1;
+  border: none;
+  color: rgba(1, 19, 52, 1);
+  cursor: pointer;
+}
+.debitNote-date:focus {
+  outline: none;
+}
+
+/* button */
+.debitNote-active-btn {
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 2px solid rgba(35, 78, 112, 1);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(35, 78, 112, 1);
+  width: max-content;
+  cursor: pointer;
+}
+.debitNote-inactive-btn {
+  border: 2px solid rgba(176, 176, 176, 1);
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(176, 176, 176, 1);
+  border-radius: 12px;
+  background-color: white;
+  width: max-content;
+  cursor: pointer;
+}
+/* table */
+.debitNote-table-cointainer {
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  scrollbar-color: lightgray;
+}
+.debitNote-table-cointainer > table {
+  width: 100%;
+  border: 1px solid hsla(0, 0%, 0%, 0.119);
+  background: #fff;
+  margin-top: 30px;
+  border-radius: 4px;
+}
+.debitNote-table-head > tr > th {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(35, 78, 112, 1);
+  padding: 15px 20px;
+  border-bottom: 2px solid rgba(35, 78, 112, 0.3);
+  text-align: start;
+}
+.debitNote-table-body > tr > td {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(26, 26, 26, 1);
+  padding: 15px 20px;
+  border-bottom: 1px solid hsla(0, 0%, 0%, 0.119);
+  text-align: start;
+}
+.debitNote-status-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  width: max-content;
+  position: relative;
+}
+.debitNote-status-filter:hover > .debitNote-filter-box {
+  display: block;
+}
+.debitNote-filter-box {
+  display: none;
+  background-color: #fff;
+  z-index: 1;
+  position: absolute;
+  top: 20px;
+  width: max-content;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.debitNote-filter-box > p {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: black;
+  text-align: start;
+
+  border-radius: 5px;
+}
+.debitNote-filter-box > p:hover {
+  background-color: rgb(239, 239, 239);
+  color: rgba(35, 78, 112, 1);
+}
+.debitNote-table-check {
+  width: 18px;
+  height: 18px;
+  color: rgba(42, 42, 42, 1);
+}
+.debitNote-delete-logo {
+  width: 20px;
+  height: 20px;
+  fill: black;
+  margin: auto;
+  cursor: pointer;
+}
+/* action */
+#debitNote-table-action {
+  position: relative;
+}
+#debitNote-table-action:hover > .debitNote-dot-container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 7px;
+}
+.debitNote-dot-container {
+  display: none;
+  background: #fff;
+  align-items: center;
+  z-index: 7;
+  position: absolute;
+  top: -50px;
+  right: 10px;
+  width: max-content;
+  align-items: start;
+}
+.debitNote-dot-container > button {
+  padding: 10px 15px;
+  border-radius: 3px;
+  width: 100%;
+  background: white;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: start;
+}
+.debitNote-dot-container button:hover {
+  background-color: rgb(239, 239, 239);
+  cursor: pointer;
+}
+/* status */
+.debitNote-Status {
+  padding: 8px;
+  text-align: center;
+  border-radius: 10px;
+  width: max-content;
+}
+.debitNote-Status-draft {
+  background-color: rgba(255, 214, 56, 1);
+}
+.debitNote-Status-Send {
+  background-color: rgba(140, 216, 188, 1);
+}
+.debitNote-Status-Cancelled {
+  background-color: rgba(255, 77, 79, 1);
+}
+.debitNote-Status-Paid {
+  background-color: rgba(34, 197, 94, 1);
+}
+.debitNote-Status-Overdue {
+  background-color: rgba(229, 231, 235, 1);
+}
+.debitNote-Paid {
+  color: rgba(0, 184, 0, 1);
+}
+.debitNote-Unpaid {
+  color: rgba(255, 77, 79, 1);
+}
+.debitNote-Partial {
+  color: rgba(255, 156, 81, 1);
+}
+/* table-bottem */
+
+.debitNote-table-bottem {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: hsl(0, 0%, 95%);
+  border-top: 0px !important;
+  border: 1px solid hsla(0, 0%, 0%, 0.119);
+}
+.debitNote-num-entries {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2a2a;
+}
+.debitNote-manage-control-box {
+  width: 190px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.debitNote-manage-btn {
+  padding: 8px 10px;
+  background-image: linear-gradient(#0056b3, #405189);
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+}
+.debitNote-date-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid rgba(35, 78, 112, 1);
+  border-radius: 10px;
+  padding: 7px 15px;
+  background: rgba(255, 255, 255, 1);
+  cursor: pointer;
+  font-size: 14px;
+  color: rgba(1, 19, 52, 1);
+}
+
+.debitNote-date-range input[type="date"] {
+  border: none;
+  background: transparent;
+  color: rgba(1, 19, 52, 1);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  flex: 1;
+}
+
+.debitNote-date-range input[type="date"]:focus {
+  outline: none;
+}
+
+.debitNote-date-range span {
+  color: rgba(176, 176, 176, 1);
+  font-size: 14px;
+  font-weight: 400;
+  width: 20px;
+  text-align: center;
+  user-select: none;
+}
+
+.debitNote-manage-btn:hover {
+  transform: scale(1.035);
+}
+.debitNote-num-page {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2a2a;
+}
+
+@media (max-width: 1120px) {
+  .debitNote-table-title > nav {
+    width: 100%;
+    justify-content: end;
+  }
+}
+@media (max-width: 430px) {
+  .debitNote-table-bottem {
+    flex-direction: column;
+    padding: 20px 10px;
+  }
+  .debitNote-num-entries {
+    width: 100%;
+  }
+  .debitNote-manage-control-box {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

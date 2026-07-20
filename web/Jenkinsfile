@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Image') {
+            steps {
+                echo 'Building Frontend Image...'
+                // Simple build command
+                sh 'docker build -t erp-frontend .'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying Frontend...'
+                // 1. Clean up old container
+                sh 'docker stop erp-frontend-container || true'
+                sh 'docker rm erp-frontend-container || true'
+                
+                // 2. Run new container
+                // Map Server Port 3000 -> Container Port 80
+                sh 'docker run -d -p 3000:80 --name erp-frontend-container erp-frontend'
+            }
+        }
+    }
+}

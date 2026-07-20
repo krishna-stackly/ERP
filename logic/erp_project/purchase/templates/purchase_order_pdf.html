@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchase Order {{ po.PO_ID }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12pt; margin: 40px; }
+        h1 { text-align: center; color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .summary { margin-top: 30px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Purchase Order {{ po.PO_ID }}</h1>
+    <p><strong>PO Date:</strong> {{ po.po_date|date:"d M Y" }}</p>
+    <p><strong>Delivery Date:</strong> {{ po.delivery_date|date:"d M Y"|default:"-" }}</p>
+    <p><strong>Status:</strong> {{ po.status }}</p>
+    <p><strong>Supplier:</strong> {{ po.supplier_name }} ({{ po.supplier.supplier_id }})</p>
+
+    <h2>Line Items</h2>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>UOM</th>
+            <th>In Stock</th>
+            <th>Qty Ordered</th>
+            <th>Unit Price</th>
+            <th>Tax (%)</th>
+            <th>Discount (%)</th>
+            <th>Total</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.product_name }} ({{ item.product_id }})</td>
+            <td>{{ item.uom }}</td>
+            <td>{{ item.in_stock }}</td>
+            <td>{{ item.qty_ordered }}</td>
+            <td>{{ item.unit_price|floatformat:2 }}</td>
+            <td>{{ item.tax_rate|floatformat:2 }}</td>
+            <td>{{ item.discount_rate|floatformat:2 }}</td>
+            <td>{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="summary">
+        <p>Subtotal: {{ subtotal|floatformat:2 }}</p>
+        <p>Global Discount: {{ po.global_discount }}%</p>
+        <p>Tax Summary: {{ tax_summary|floatformat:2 }}</p>
+        <p>Shipping Charges: {{ po.shipping_charges|floatformat:2 }}</p>
+        <p>Rounding Adjustment: {{ po.rounding_adjustment|floatformat:2 }}</p>
+        <p><strong>Total Order Value: {{ po.total_order_value|floatformat:2 }} {{ po.currency }}</strong></p>
+    </div>
+
+    {% if po.notes_comments %}
+    <h2>Notes / Comments</h2>
+    <p>{{ po.notes_comments|linebreaks }}</p>
+    {% endif %}
+
+    <p>Generated on {{ now|date:"d M Y H:i" }} by {{ request.user.get_full_name }}</p>
+</body>
+</html>

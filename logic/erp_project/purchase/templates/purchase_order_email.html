@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchase Order {{ po.PO_ID }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        h1 { color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Purchase Order {{ po.PO_ID }}</h1>
+    <p>Dear {{ supplier.supplier_name }},</p>
+    <p>Please find attached your Purchase Order details below.</p>
+
+    <p><strong>PO Date:</strong> {{ po.po_date|date:"d M Y" }}</p>
+    <p><strong>Delivery Date:</strong> {{ po.delivery_date|date:"d M Y"|default:"-" }}</p>
+    <p><strong>Total Value:</strong> {{ po.total_order_value|floatformat:2 }} {{ po.currency }}</p>
+
+    <h2>Line Items</h2>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.qty_ordered }}</td>
+            <td>{{ item.unit_price|floatformat:2 }}</td>
+            <td>{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>Thank you for your supply.</p>
+    <p>Best regards,<br>Stackly ERP Team</p>
+</body>
+</html>

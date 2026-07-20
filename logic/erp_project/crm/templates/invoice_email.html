@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice {{ invoice.invoice_id }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+    <h2 style="color: #2c3e50;">Invoice {{ invoice.invoice_id }}</h2>
+    
+    <p>Dear {{ invoice.customer.name }},</p>
+    
+    <p>Thank you for your business. Please find your invoice details below:</p>
+    
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Invoice Date:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ invoice.invoice_date|date:"d M Y" }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Due Date:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ invoice.due_date|date:"d M Y" }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Grand Total:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">{{ invoice.grand_total|floatformat:2 }} {{ invoice.currency }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px;"><strong>Balance Due:</strong></td>
+            <td style="padding: 8px; font-weight: bold; color: #e74c3c;">{{ invoice.balance_due|floatformat:2 }} {{ invoice.currency }}</td>
+        </tr>
+    </table>
+
+    <p>You can view or download the full invoice from the attached PDF.</p>
+    
+    <p><strong>Payment Instructions:</strong><br>
+    {{ invoice.terms_conditions|linebreaksbr }}</p>
+
+    <p style="margin-top: 30px;">Thank you for choosing us!<br>
+    Best regards,<br>
+    <strong>Your Company Name</strong><br>
+    support@yourcompany.com | +91-XXXXXXXXXX</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+    <p style="font-size: 11px; color: #777; text-align: center;">
+        Generated on {{ now|date:"d M Y H:i" }} | This is an automated email, please do not reply.
+    </p>
+</body>
+</html>

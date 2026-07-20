@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Return {{ sr.SRN_ID }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12pt; margin: 40px; }
+        h1 { text-align: center; color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .summary { margin-top: 30px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Stock Return {{ sr.SRN_ID }}</h1>
+    <p><strong>Return Date:</strong> {{ sr.return_date|date:"d M Y" }}</p>
+    <p><strong>PO Reference:</strong> {{ sr.po_reference.PO_ID|default:"N/A" }}</p>
+    <p><strong>GRN Reference:</strong> {{ sr.grn_reference.GRN_ID|default:"N/A" }}</p>
+    <p><strong>Supplier:</strong> {{ sr.supplier.supplier_name|default:"N/A" }}</p>
+    <p><strong>Return Initiated By:</strong> {{ return_initiated_by }}</p>
+
+    <h2>Line Items</h2>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Product ID</th>
+            <th>UOM</th>
+            <th>Qty Ordered</th>
+            <th>Qty Rejected</th>
+            <th>Qty Returned</th>
+            <th>Unit Price</th>
+            <th>Tax (%)</th>
+            <th>Discount (%)</th>
+            <th>Total</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.product_id }}</td>
+            <td>{{ item.uom }}</td>
+            <td>{{ item.qty_ordered }}</td>
+            <td>{{ item.qty_rejected }}</td>
+            <td>{{ item.qty_returned }}</td>
+            <td>{{ item.unit_price|floatformat:2 }}</td>
+            <td>{{ item.tax_rate|floatformat:2 }}</td>
+            <td>{{ item.discount_rate|floatformat:2 }}</td>
+            <td>{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="summary">
+        <p>Original Purchased Total: {{ sr.original_purchased_total|floatformat:2 }}</p>
+        <p>Global Discount: {{ sr.global_discount }}%</p>
+        <p>Return Subtotal: {{ sr.return_subtotal|floatformat:2 }}</p>
+        <p>Global Discount Amount: {{ sr.global_discount_amount|floatformat:2 }}</p>
+        <p>Rounding Adjustment: {{ sr.rounding_adjustment|floatformat:2 }}</p>
+        <p><strong>Amount to Recover: {{ sr.amount_to_recover|floatformat:2 }}</strong></p>
+    </div>
+
+    <p>Generated on {{ now|date:"d M Y H:i" }} by {{ request.user.get_full_name }}</p>
+</body>
+</html>

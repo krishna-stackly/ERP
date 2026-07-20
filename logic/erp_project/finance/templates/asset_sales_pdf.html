@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Asset Sale {{ asset_sale.asset_sale_no }}
+    </title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            font-size: 13px;
+            color: #222;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .section-title {
+            background: #f2f2f2;
+            padding: 8px;
+            margin-top: 25px;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .info-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .info-label {
+            font-weight: bold;
+            width: 25%;
+            background: #fafafa;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .items-table th,
+        .items-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .items-table th {
+            background-color: #f2f2f2;
+        }
+
+        .totals {
+            margin-top: 20px;
+            width: 40%;
+            float: right;
+        }
+
+        .totals td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div class="header">
+
+        <h1>ASSET SALE</h1>
+
+        <p>
+            <strong>Asset Sale No:</strong>
+            {{ asset_sale.asset_sale_no }}
+        </p>
+
+        <p>
+            <strong>Date:</strong>
+            {{ asset_sale.date|date:"d M Y" }}
+        </p>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- ASSET DETAILS -->
+    <!-- ================================================= -->
+
+    <div class="section-title">
+        Asset Details
+    </div>
+
+    <table class="info-table">
+
+        <tr>
+            <td class="info-label">Asset ID</td>
+            <td>{{ asset_sale.asset_id }}</td>
+
+            <td class="info-label">Asset Name</td>
+            <td>{{ asset_sale.asset_name }}</td>
+        </tr>
+
+        <tr>
+            <td class="info-label">Department</td>
+            <td>
+                {{ asset_sale.department.name|default:"-" }}
+            </td>
+
+            <td class="info-label">Requested By</td>
+            <td>
+                {{ asset_sale.requested_by|default:"-" }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="info-label">Asset Condition</td>
+            <td>{{ asset_sale.asset_condition }}</td>
+
+            <td class="info-label">Sale Date</td>
+            <td>
+                {{ asset_sale.sale_date|date:"d M Y" }}
+            </td>
+        </tr>
+
+    </table>
+
+    <!-- ================================================= -->
+    <!-- BUYER DETAILS -->
+    <!-- ================================================= -->
+
+    <div class="section-title">
+        Buyer Details
+    </div>
+
+    <table class="info-table">
+
+        <tr>
+            <td class="info-label">Buyer Name</td>
+            <td>{{ asset_sale.buyer_name }}</td>
+
+            <td class="info-label">Mode Of Sale</td>
+            <td>{{ asset_sale.mode_of_sale }}</td>
+        </tr>
+
+        <tr>
+            <td class="info-label">Invoice No</td>
+            <td>
+                {{ asset_sale.invoice_no|default:"-" }}
+            </td>
+
+            <td class="info-label">Reason For Sale</td>
+            <td>{{ asset_sale.reason_for_sale }}</td>
+        </tr>
+
+    </table>
+
+    <!-- ================================================= -->
+    <!-- FINANCIAL DETAILS -->
+    <!-- ================================================= -->
+
+    <div class="section-title">
+        Financial Details
+    </div>
+
+    <table class="items-table">
+
+        <thead>
+
+            <tr>
+                <th>#</th>
+                <th>Asset Name</th>
+                <th>Original Cost</th>
+                <th>Accumulated Depreciation</th>
+                <th>NBV</th>
+                <th>Sale Value</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for item in items %}
+
+            <tr>
+
+                <td>
+                    {{ forloop.counter }}
+                </td>
+
+                <td>
+                    {{ item.asset_name }}
+                </td>
+
+                <td>
+                    {{ item.original_cost|floatformat:2 }}
+                </td>
+
+                <td>
+                    {{ item.accumulated_depreciation|floatformat:2 }}
+                </td>
+
+                <td>
+                    {{ item.nbv|floatformat:2 }}
+                </td>
+
+                <td>
+                    {{ item.sale_value|floatformat:2 }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <!-- ================================================= -->
+    <!-- TOTALS -->
+    <!-- ================================================= -->
+
+    <table class="totals">
+
+        <tr>
+            <td><strong>Net Book Value</strong></td>
+            <td>
+                {{ asset_sale.net_book_value|floatformat:2 }}
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>Sale Value</strong></td>
+            <td>
+                {{ asset_sale.sale_value|floatformat:2 }}
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>Gain / Loss</strong></td>
+            <td>
+                {{ asset_sale.gain_loss_on_sale|floatformat:2 }}
+            </td>
+        </tr>
+
+    </table>
+
+    <div style="clear: both;"></div>
+
+    <!-- ================================================= -->
+    <!-- REMARKS -->
+    <!-- ================================================= -->
+
+    <div class="section-title">
+        Remarks
+    </div>
+
+    <table class="info-table">
+
+        <tr>
+            <td>
+                {{ asset_sale.remarks|default:"-" }}
+            </td>
+        </tr>
+
+    </table>
+
+    <!-- ================================================= -->
+    <!-- APPROVAL -->
+    <!-- ================================================= -->
+
+    <div class="section-title">
+        Approval Details
+    </div>
+
+    <table class="info-table">
+
+        <tr>
+            <td class="info-label">Approved By</td>
+            <td>
+                {{ asset_sale.approved_by|default:"-" }}
+            </td>
+
+            <td class="info-label">Status</td>
+            <td>{{ asset_sale.status }}</td>
+        </tr>
+
+    </table>
+
+    <!-- ================================================= -->
+    <!-- FOOTER -->
+    <!-- ================================================= -->
+
+    <div class="footer">
+
+        Generated on
+        {{ now|date:"d M Y h:i A" }}
+
+    </div>
+
+</body>
+
+</html>

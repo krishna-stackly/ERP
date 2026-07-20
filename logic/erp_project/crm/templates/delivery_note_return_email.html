@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delivery Note Return {{ dnr.dnr_id }}</title>
+</head>
+<body style="font-family: Arial; color: #333;">
+    <h2>Delivery Note Return {{ dnr.dnr_id }}</h2>
+    <p>Dear {{ dnr.customer.name }},</p>
+    <p>We have processed your return request.</p>
+
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr><td><strong>Date:</strong></td><td>{{ dnr.dnr_date|date:"d M Y" }}</td></tr>
+        <tr><td><strong>Invoice Return Ref:</strong></td><td>{{ dnr.invoice_return.invoice_return_id|default:"N/A" }}</td></tr>
+    </table>
+
+    <p>Thank you!<br>
+    Best regards,<br>
+    Your Company Name</p>
+</body>
+</html>

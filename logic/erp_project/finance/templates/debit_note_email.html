@@ -1,0 +1,5 @@
+<p>Dear {{ dbn.supplier.name }},</p>
+<p>Your Debit Note {{ dbn.dbn_id }} has been issued.</p>
+<p>Total Debit Amount: {{ dbn.purchase_total|floatformat:2 }} {{ dbn.currency }}</p>
+<p>Thank you for your business!</p>
+<p>Best regards,<br>Your Company</p>

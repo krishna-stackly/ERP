@@ -1,0 +1,530 @@
+/* ===== ADD / EDIT TRIAL BALANCE FORM ===== */
+.atb-container {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  overflow: scroll;
+  background: rgba(253, 253, 253, 1);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.atb-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Header */
+.atb-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.atb-head > nav {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.atb-head > nav > p {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(35, 78, 112, 1);
+}
+.atb-head > nav > h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(26, 26, 26, 1);
+  padding: 5px 9px;
+  border-radius: 8px;
+}
+.atb-status-Draft     { background-color: rgba(250, 204, 21, 1); }
+.atb-status-Submitted { background-color: rgba(140, 180, 255, 1); }
+.atb-status-Approved  { background-color: rgba(140, 216, 188, 1); }
+.atb-status-Posted    { background-color: rgba(167, 243, 208, 1); }
+.atb-status-Cancelled { background-color: rgba(255, 77, 79, 0.3); }
+
+.atb-close-btn {
+  cursor: pointer;
+  display: flex;
+  gap: 5px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+}
+.atb-close-icon {
+  width: 15px;
+  height: 15px;
+  fill: rgba(255, 77, 79, 1);
+}
+.atb-close-btn > span {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(255, 77, 79, 1);
+}
+
+/* Section title */
+.atb-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(35, 78, 112, 1);
+  padding: 10px 0 8px 0;
+  border-bottom: 2px solid rgba(35, 78, 112, 0.3);
+  margin-bottom: 16px;
+}
+
+/* Report Parameters card */
+.atb-params-card {
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #fff;
+}
+
+/* Input grid */
+.atb-input-grid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 15px;
+  flex-direction: row;
+  padding: 8px 0;
+  flex-wrap: wrap;
+}
+.atb-input-box {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: 5px;
+  min-width: 200px;
+}
+.atb-input-box > label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(42, 42, 42, 1);
+}
+.atb-input-box > label > sup {
+  color: red;
+}
+.atb-input-box > input,
+.atb-input-box > select {
+  border: 2px solid rgba(226, 226, 226, 1);
+  background-color: rgba(249, 249, 249, 1);
+  width: 100%;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 8px 18px;
+  outline: none;
+  box-sizing: border-box;
+}
+.atb-input-box > input:focus,
+.atb-input-box > select:focus {
+  border: 2px solid rgba(35, 78, 112, 1);
+  background-color: #fff;
+  color: rgba(1, 19, 52, 1);
+}
+.atb-input-box > input:disabled,
+.atb-input-box > select:disabled {
+  background-color: rgba(243, 243, 243, 1);
+  color: rgba(176, 176, 176, 1);
+  cursor: not-allowed;
+}
+
+/* Custom dropdown trigger (for searchable dropdowns) */
+.atb-dropdown-trigger {
+  border: 2px solid rgba(226, 226, 226, 1);
+  background-color: rgba(249, 249, 249, 1);
+  width: 100%;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 8px 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  box-sizing: border-box;
+}
+.atb-dropdown-trigger.open {
+  border: 2px solid rgba(35, 78, 112, 1);
+  background-color: #fff;
+}
+.atb-dropdown-trigger.disabled {
+  background-color: rgba(243, 243, 243, 1);
+  color: rgba(176, 176, 176, 1);
+  cursor: not-allowed;
+}
+.atb-dropdown-trigger > span {
+  color: rgba(176, 176, 176, 1);
+}
+.atb-dropdown-trigger > span.has-value {
+  color: rgba(1, 19, 52, 1);
+}
+.atb-dropdown-arrow {
+  width: 11px;
+  height: 16px;
+  fill: rgba(100, 100, 100, 1);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.atb-dropdown-trigger.open .atb-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.atb-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 300;
+  overflow: hidden;
+}
+.atb-dropdown-option {
+  padding: 10px 18px;
+  font-size: 14px;
+  color: rgba(42, 42, 42, 1);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.atb-dropdown-option:hover {
+  background-color: rgba(249, 249, 249, 1);
+  color: rgba(35, 78, 112, 1);
+}
+.atb-dropdown-option.selected {
+  background-color: rgba(35, 78, 112, 0.08);
+  color: rgba(35, 78, 112, 1);
+  font-weight: 600;
+}
+.atb-dropdown-wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* Date range row */
+.atb-date-range-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid rgba(226, 226, 226, 1);
+  background-color: rgba(249, 249, 249, 1);
+  border-radius: 10px;
+  padding: 8px 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.atb-date-range-row > span {
+  font-size: 13px;
+  color: rgba(176, 176, 176, 1);
+  white-space: nowrap;
+}
+.atb-date-range-row > select {
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: rgba(1, 19, 52, 1);
+  outline: none;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* Debit / Credit summary side by side */
+.atb-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+@media (max-width: 768px) {
+  .atb-summary-grid { grid-template-columns: 1fr; }
+}
+.atb-summary-card {
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.atb-summary-header {
+  background: rgba(35, 78, 112, 1);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 16px;
+}
+.atb-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 16px;
+  border-bottom: 1px solid rgba(226, 226, 226, 0.5);
+  font-size: 13px;
+}
+.atb-summary-row:last-child { border-bottom: none; }
+.atb-summary-row > label { color: rgba(100, 100, 100, 1); }
+.atb-summary-row > span { color: rgba(26, 26, 26, 1); font-weight: 500; }
+.atb-summary-row > a {
+  color: rgba(35, 78, 112, 1);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.atb-summary-divider { height: 1px; background: rgba(226, 226, 226, 1); }
+
+/* Grand totals */
+.atb-grand-card {
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.atb-grand-header {
+  background: rgba(249, 249, 249, 1);
+  border-bottom: 1px solid rgba(226, 226, 226, 1);
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(26, 26, 26, 1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.atb-grand-header > a {
+  font-size: 12px;
+  color: rgba(35, 78, 112, 1);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 400;
+}
+.atb-grand-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(226, 226, 226, 0.5);
+  font-size: 13px;
+}
+.atb-grand-row:last-child { border-bottom: none; }
+.atb-grand-row > label { color: rgba(100, 100, 100, 1); }
+.atb-grand-row > span { color: rgba(26, 26, 26, 1); font-weight: 500; }
+
+/* Tabs */
+.atb-hub-container {
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.atb-hub-head {
+  display: flex;
+  border-bottom: 1px solid rgba(226, 226, 226, 1);
+}
+.atb-hub-head > p {
+  flex: 1;
+  text-align: center;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(100, 100, 100, 1);
+  cursor: pointer;
+  border-right: 1px solid rgba(226, 226, 226, 1);
+  background: rgba(249, 249, 249, 1);
+  transition: all 0.2s;
+}
+.atb-hub-head > p:last-child { border-right: none; }
+.atb-hub-head > p.atb-tab-active {
+  color: rgba(35, 78, 112, 1);
+  font-weight: 700;
+  background: #fff;
+  border-bottom: 3px solid rgba(35, 78, 112, 1);
+}
+.atb-hub-body {
+  padding: 20px;
+  background: #fff;
+}
+
+/* Action buttons */
+.atb-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 0 4px;
+}
+.atb-btn-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.atb-btn {
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+}
+.atb-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.atb-btn-cancel  { background: #fff; border: 2px solid rgba(255, 77, 79, 1); color: rgba(255, 77, 79, 1); }
+.atb-btn-draft   { background: #fff; border: 2px solid rgba(35, 78, 112, 1); color: rgba(35, 78, 112, 1); }
+.atb-btn-submit  { background: rgba(35, 78, 112, 1); color: #fff; }
+.atb-btn-approve { background: rgba(34, 197, 94, 1); color: #fff; }
+.atb-btn-post    { background: rgba(140, 100, 230, 1); color: #fff; }
+
+.atb-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(226, 226, 226, 1);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+.atb-icon-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.atb-icon-btn > svg { width: 18px; height: 18px; fill: rgba(42, 42, 42, 1); }
+
+/* ===== MODAL OVERLAY ===== */
+.atb-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.atb-modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 900px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.atb-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(226, 226, 226, 1);
+  background: rgba(249, 249, 249, 1);
+}
+.atb-modal-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(35, 78, 112, 1);
+  margin: 0;
+}
+.atb-modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: rgba(255, 77, 79, 1);
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 4px;
+}
+.atb-modal-body {
+  overflow-y: auto;
+  padding: 16px 20px 20px;
+}
+
+/* Modal Table */
+.atb-modal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.atb-modal-table thead tr {
+  background: rgba(35, 78, 112, 1);
+}
+.atb-modal-table thead th {
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 14px;
+  text-align: left;
+  white-space: nowrap;
+}
+.atb-modal-table tbody tr {
+  border-bottom: 1px solid rgba(226, 226, 226, 1);
+  transition: background 0.12s;
+}
+.atb-modal-table tbody tr:hover {
+  background: rgba(249, 249, 249, 1);
+}
+.atb-modal-table tbody td {
+  padding: 10px 14px;
+  color: rgba(26, 26, 26, 1);
+  white-space: nowrap;
+}
+.atb-modal-table tfoot tr {
+  background: rgba(35, 78, 112, 0.08);
+  border-top: 2px solid rgba(35, 78, 112, 0.3);
+}
+.atb-modal-table tfoot td {
+  padding: 10px 14px;
+  font-weight: 700;
+  color: rgba(35, 78, 112, 1);
+  white-space: nowrap;
+}
+
+/* View Ledger action cell */
+.atb-row-action {
+  position: relative;
+}
+.atb-row-action:hover > .atb-row-menu {
+  display: flex;
+}
+.atb-row-dots {
+  cursor: pointer;
+  font-size: 18px;
+  color: rgba(42, 42, 42, 1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  user-select: none;
+}
+.atb-row-dots:hover { background: rgba(226, 226, 226, 0.6); }
+.atb-row-menu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  z-index: 50;
+  min-width: 120px;
+  overflow: hidden;
+}
+.atb-row-menu button {
+  width: 100%;
+  padding: 9px 14px;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: rgba(42, 42, 42, 1);
+  cursor: pointer;
+}
+.atb-row-menu button:hover { background: rgba(249, 249, 249, 1); color: rgba(35, 78, 112, 1); }

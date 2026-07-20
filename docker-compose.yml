@@ -1,0 +1,80 @@
+# Local dev/staging parity for the 3-tier stack: mysql-db-qa -> backend-qa -> frontend.
+#
+# Run this from the parent directory containing both project folders as
+# siblings, e.g.:
+#   ./stackly-erp-backend-Qa/
+#   ./stackly-erp-frontend-Dev/
+#   ./docker-compose.yml   <-- this file
+#
+# Service names below (mysql-db-qa, backend-qa, frontend) are deliberately
+# the SAME names used as DB_HOST / BACKEND_HOST env vars — Compose's built-in
+# DNS resolves service name -> container automatically, exactly the way a
+# Kubernetes Service name resolves via cluster DNS, and the same names you'll
+# create as Route 53 private DNS records for the 3-VM setup. Same names,
+# every stage — only the underlying mechanism resolving them changes.
+
+services:
+  mysql-db-qa:
+    image: mysql:8.0
+    container_name: mysql-db-qa
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: erp_db
+      MYSQL_USER: erp_user
+      MYSQL_PASSWORD: erp_pass
+    ports:
+      - "3306:3306"   # exposed to host too, handy for a DB GUI client
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend-qa:
+    build:
+      context: ./logic
+    container_name: backend-qa
+    restart: unless-stopped
+    depends_on:
+      mysql-db-qa:
+        condition: service_healthy
+    environment:
+      DEBUG: "False"
+      SECRET_KEY: "compose-dev-secret-do-not-use-in-prod"
+      DB_ENGINE: django.db.backends.mysql
+      DB_HOST: mysql-db-qa      # <-- Compose service name, resolved via built-in DNS
+      DB_PORT: "3306"
+      DB_NAME: erp_db
+      DB_USER: erp_user
+      DB_PASSWORD: erp_pass
+      ALLOWED_HOSTS: "localhost,127.0.0.1,backend-qa"
+      CORS_ALLOWED_ORIGINS: "http://localhost:3000"
+      FRONTEND_URL: "http://localhost:3000"
+      EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+      EMAIL_PORT: "587"
+      EMAIL_USE_TLS: "True"
+      EMAIL_HOST: "localhost"
+      EMAIL_HOST_USER: ""
+      EMAIL_HOST_PASSWORD: ""
+      MEDIA_URL: /media/
+    ports:
+      - "8000:8000"   # exposed to host too, handy for hitting the API directly while debugging
+
+  frontend:
+    build:
+      context: ./web
+    container_name: frontend
+    restart: unless-stopped
+    depends_on:
+      - backend-qa
+    environment:
+      BACKEND_HOST: backend-qa   # <-- Compose service name, resolved via built-in DNS
+      BACKEND_PORT: "8000"
+    ports:
+      - "3000:80"
+
+volumes:
+  mysql_data:

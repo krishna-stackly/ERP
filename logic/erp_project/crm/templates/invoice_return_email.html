@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice Return {{ ir.invoice_return_id }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #2c3e50; padding-bottom: 10px;">Invoice Return {{ ir.invoice_return_id }}</h2>
+    
+    <p>Dear {{ ir.customer.name }},</p>
+    
+    <p>We have processed your return request for Invoice <strong>{{ ir.invoice.invoice_id }}</strong>.</p>
+    
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Return Date:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ ir.invoice_return_date|date:"d M Y" }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Original Invoice:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ ir.invoice.invoice_id }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Amount to Refund:</strong></td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold; color: #27ae60;">{{ ir.amount_to_refund|floatformat:2 }} {{ ir.invoice.currency|default:"INR" }}</td>
+        </tr>
+    </table>
+
+    <h3>Returned Items Summary</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background-color: #f4f6f9;">
+            <th style="padding: 10px; border: 1px solid #ddd;">Product</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Returned Qty</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Total Refund</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ item.product_name }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">{{ item.returned_qty_cus }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><strong>Refund Details:</strong> The amount will be processed via your original payment method within 7-10 business days.</p>
+    
+    <p>Thank you for your patience and understanding.</p>
+    
+    <p style="margin-top: 30px;">Best regards,<br>
+    <strong>Your Company Name</strong><br>
+    support@yourcompany.com | +91-XXXXXXXXXX</p>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+    <p style="font-size: 11px; color: #777; text-align: center;">
+        This is an automated email. Generated on {{ now|date:"d M Y H:i" }}. Please do not reply directly.
+    </p>
+</body>
+</html>

@@ -1,0 +1,352 @@
+/* ── OVERLAY ─────────────────────────────────────────────────────── */
+.npc2-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ── CARD ────────────────────────────────────────────────────────── */
+.npc2-card {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+/* ── HEADER ──────────────────────────────────────────────────────── */
+.npc2-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  gap: 10px;
+}
+.npc2-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.npc2-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.npc2-back {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: rgba(35, 78, 112, 1);
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+.npc2-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(35, 78, 112, 1);
+  white-space: nowrap;
+}
+.npc2-btn-primary {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(35, 78, 112, 1);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.npc2-btn-outline {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(35, 78, 112, 1);
+  background: #fff;
+  color: rgba(35, 78, 112, 1);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ── BODY ────────────────────────────────────────────────────────── */
+.npc2-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+}
+.npc2-body::-webkit-scrollbar { width: 4px; }
+.npc2-body::-webkit-scrollbar-thumb { background: rgba(35,78,112,0.15); border-radius: 4px; }
+
+/* ── FORM ────────────────────────────────────────────────────────── */
+.npc2-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.npc2-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.npc2-field > label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.npc2-field > label > sup { color: red; }
+.npc2-field > input,
+.npc2-field > select,
+.npc2-full-input {
+  width: 100%;
+  border: 1.5px solid rgba(226, 226, 226, 1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  background: rgba(249, 249, 249, 1);
+  color: #1a1a1a;
+  outline: none;
+  box-sizing: border-box;
+}
+.npc2-field > input:focus,
+.npc2-field > select:focus,
+.npc2-full-input:focus {
+  border-color: rgba(35, 78, 112, 0.6);
+  background: #fff;
+}
+
+/* ── MAIN BLOCK ──────────────────────────────────────────────────── */
+.npc2-main-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 8px;
+}
+.npc2-remove-main {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  color: #e53e3e;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+.npc2-divider {
+  border: none;
+  border-top: 1.5px dashed rgba(0,0,0,0.1);
+  margin: 8px 0;
+}
+
+/* ── ROW HEADERS ─────────────────────────────────────────────────── */
+.npc2-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+.npc2-sub-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.npc2-btn-addsub {
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(34, 197, 94, 1);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.npc2-btn-addsub-grey {
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(180, 180, 180, 1);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: default;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.npc2-btn-addmore {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(35, 78, 112, 1);
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+
+/* ── SUB 2 BOX ───────────────────────────────────────────────────── */
+.npc2-sub2-box {
+  background: rgba(35, 78, 112, 0.03);
+  border: 1.5px solid rgba(35, 78, 112, 0.09);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+.npc2-hint {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+}
+
+/* ── ITEMS ───────────────────────────────────────────────────────── */
+.npc2-item-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.npc2-item-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.npc2-item-num {
+  font-size: 13px;
+  color: #555;
+  min-width: 16px;
+  flex-shrink: 0;
+}
+.npc2-item-input {
+  flex: 1;
+  min-width: 80px;
+  border: 1.5px solid rgba(226, 226, 226, 1);
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 13px;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+}
+.npc2-item-input:focus { border-color: rgba(35, 78, 112, 0.5); }
+.npc2-btn-remove {
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(239, 68, 68, 1);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── SUBLEVEL (recursive) ────────────────────────────────────────── */
+.npc2-sublevel {
+  margin-left: 14px;
+  padding-left: 10px;
+  border-left: 2px solid rgba(35, 78, 112, 0.1);
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ── ADD ANOTHER ─────────────────────────────────────────────────── */
+.npc2-add-another {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(35, 78, 112, 1);
+  cursor: pointer;
+  padding: 4px 0;
+  text-align: left;
+  margin-top: 4px;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────────────── */
+.npc2-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1.5px solid rgba(0, 0, 0, 0.07);
+  margin-top: 8px;
+}
+.npc2-footer-edit {
+  justify-content: space-between;
+}
+.npc2-cancel {
+  padding: 7px 22px;
+  border-radius: 7px;
+  border: 1.5px solid rgba(35, 78, 112, 1);
+  color: rgba(35, 78, 112, 1);
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  cursor: pointer;
+}
+.npc2-create {
+  padding: 7px 22px;
+  border-radius: 7px;
+  border: 1.5px solid rgba(35, 78, 112, 1);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(35, 78, 112, 1);
+  cursor: pointer;
+}
+.npc2-create:disabled { opacity: 0.6; cursor: not-allowed; }
+.npc2-delete {
+  padding: 7px 22px;
+  border-radius: 7px;
+  border: 1.5px solid rgba(239, 68, 68, 1);
+  color: rgba(239, 68, 68, 1);
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .npc2-card { border-radius: 10px; }
+  .npc2-header-right { flex-direction: column; gap: 4px; }
+  .npc2-btn-primary, .npc2-btn-outline { font-size: 11px; padding: 4px 10px; }
+}
+
+/* ── Keep old classes for other modals that still use them ────────── */
+.product-bg-category {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.productCategory-container { display: none; }

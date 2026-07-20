@@ -1,0 +1,5 @@
+<p>Dear {{ crn.customer.name }},</p>
+<p>Your Credit Note {{ crn.crn_id }} has been issued.</p>
+<p>Total Credit Amount: {{ crn.invoice_total|floatformat:2 }} {{ crn.currency }}</p>
+<p>Thank you for your business!</p>
+<p>Best regards,<br>Your Company</p>

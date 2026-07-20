@@ -1,0 +1,162 @@
+/* ===== ASSET SALE DASHBOARD LIST ===== */
+.asl-container {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  overflow: scroll;
+  background: rgba(253, 253, 253, 1);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.asl-container::-webkit-scrollbar { display: none; }
+
+/* Header */
+.asl-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.asl-header > p { font-size: 24px; font-weight: 500; color: rgba(35, 78, 112, 1); }
+.asl-header > button {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 14px;
+  background: #234e70;
+  color: #fff;
+  border-radius: 12px;
+  border: 0;
+  min-width: 150px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.asl-header > button:hover { background: #1a3a55; }
+
+/* Search */
+.asl-search-box {
+  cursor: pointer;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  gap: 10px;
+  border-radius: 40px;
+  width: 100%;
+  border: 2px solid rgba(217, 217, 217, 1);
+}
+.asl-search-box:focus-within { border-color: rgba(35, 78, 112, 1); }
+.asl-search-box label { display: flex; justify-content: center; align-items: center; }
+.asl-search-logo { cursor: pointer; width: 20px; height: 20px; fill: rgba(192, 192, 192, 1); }
+.asl-search-box > input { width: 95%; border: 0; background: transparent; outline: none; }
+.asl-search-box > input::placeholder { font-size: 15px; font-weight: 400; color: rgba(176, 176, 176, 1); }
+
+/* Clear filter */
+.asl-clearfilter { font-size: 14px; font-weight: 500; color: rgba(35, 78, 112, 1); display: flex; justify-content: end; align-items: center; margin-bottom: 6px; }
+.asl-clearfilter > p { width: max-content; cursor: pointer; }
+.asl-clearfilter > p:hover { text-decoration: underline; }
+
+/* Filters */
+.asl-filter-row {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.asl-input-box { flex: 1; display: flex; gap: 3px; flex-direction: column; min-width: 140px; position: relative; }
+.asl-input-box > label { font-size: 14px; font-weight: 500; color: rgba(42, 42, 42, 1); }
+
+.asl-dropdown-trigger {
+  border: 2px solid rgba(35, 78, 112, 1);
+  border-radius: 10px;
+  color: rgba(1, 19, 52, 1);
+  font-size: 14px;
+  background: #fff;
+  padding: 7px 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  user-select: none;
+}
+.asl-dropdown-trigger svg { width: 11px; height: 16px; fill: rgba(35, 78, 112, 1); transition: transform 0.2s; }
+.asl-dropdown-trigger.open svg { transform: rotate(180deg); }
+.asl-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  min-width: 100%;
+  background: #fff;
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 200;
+  overflow: hidden;
+}
+.asl-dropdown-option { padding: 9px 15px; font-size: 14px; color: rgba(42, 42, 42, 1); cursor: pointer; transition: background 0.12s; }
+.asl-dropdown-option:hover { background: rgba(249, 249, 249, 1); color: rgba(35, 78, 112, 1); }
+.asl-dropdown-option.asl-selected { background: rgba(35, 78, 112, 0.08); color: rgba(35, 78, 112, 1); font-weight: 600; }
+
+/* Period date filter */
+.asl-period-box { flex: 1; display: flex; gap: 3px; flex-direction: column; min-width: 200px; }
+.asl-period-box > label { font-size: 14px; font-weight: 500; color: rgba(42, 42, 42, 1); }
+.asl-period-inputs { display: flex; flex-direction: column; gap: 6px; border: 2px solid rgba(35, 78, 112, 1); border-radius: 10px; padding: 7px 15px; background: #fff; }
+.asl-period-inputs > div { display: flex; align-items: center; gap: 8px; }
+.asl-period-inputs span { color: rgba(176, 176, 176, 1); font-size: 13px; width: 32px; }
+.asl-period-inputs input[type="date"] { border: none; outline: none; font-size: 14px; color: rgba(1, 19, 52, 1); background: transparent; cursor: pointer; flex: 1; }
+
+/* Generate Report */
+.asl-generate-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.asl-generate-row > label { font-size: 14px; font-weight: 500; color: rgba(42, 42, 42, 1); white-space: nowrap; }
+.asl-report-select { border: 2px solid rgba(35, 78, 112, 1); border-radius: 10px; padding: 7px 14px; font-size: 14px; color: rgba(1, 19, 52, 1); background: #fff; outline: none; cursor: pointer; min-width: 240px; }
+.asl-generate-btn { padding: 7px 20px; background: #234e70; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.asl-generate-btn:hover { background: #1a3a55; }
+
+/* Table */
+.asl-table-container { width: 100%; overflow-y: hidden; overflow-x: scroll; scrollbar-width: thin; scrollbar-color: lightgray transparent; }
+.asl-table-container > table { width: 100%; border: 1px solid hsla(0,0%,0%,0.119); background: #fff; border-radius: 4px; border-collapse: collapse; }
+.asl-table-container thead tr th {
+  font-size: 14px; font-weight: 500; color: rgba(35, 78, 112, 1);
+  padding: 13px 16px; border-bottom: 2px solid rgba(35, 78, 112, 0.3);
+  text-align: start; white-space: nowrap; background: #fff;
+  position: sticky; top: 0; z-index: 10;
+}
+.asl-table-container tbody tr td { font-size: 14px; font-weight: 400; color: rgba(26, 26, 26, 1); padding: 13px 16px; border-bottom: 1px solid hsla(0,0%,0%,0.119); text-align: start; white-space: nowrap; }
+.asl-table-container tfoot tr td { font-size: 14px; font-weight: 700; color: rgba(35, 78, 112, 1); padding: 12px 16px; border-top: 2px solid rgba(35, 78, 112, 0.3); white-space: nowrap; }
+.asl-table-container tbody tr:last-child td { border-bottom: none; }
+.asl-table-container tbody tr:hover { background: rgba(249, 249, 249, 1); }
+.asl-id-cell { font-weight: 600; color: rgba(35, 78, 112, 1) !important; }
+.asl-gain { color: rgba(22, 163, 74, 1) !important; font-weight: 600; }
+.asl-loss { color: rgba(220, 38, 38, 1) !important; font-weight: 600; }
+
+/* Status badges */
+.asl-badge { padding: 5px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; width: max-content; display: inline-block; }
+.asl-badge-draft     { background: rgba(255, 214, 56, 1);   color: #5a3e00; }
+.asl-badge-submitted { background: rgba(140, 180, 255, 1);  color: #1a2a6c; }
+.asl-badge-approved  { background: rgba(140, 216, 188, 1);  color: #065f46; }
+.asl-badge-completed { background: rgba(6, 95, 70, 1);      color: #fff; }
+.asl-badge-rejected  { background: rgba(255, 77, 79, 0.2);  color: rgba(255, 77, 79, 1); }
+
+/* Action cell */
+#asl-action-cell { position: relative; }
+#asl-action-cell:hover > .asl-dot-container { display: flex; flex-direction: column; box-shadow: rgba(0,0,0,0.16) 0 1px 4px; border-radius: 7px; }
+.asl-dot-container { display: none; background: #fff; align-items: start; z-index: 7; position: absolute; top: -10px; right: 30px; width: max-content; }
+.asl-dot-container > button { padding: 10px 15px; border-radius: 3px; width: 100%; background: white; border: none; font-size: 12px; font-weight: 500; text-align: start; cursor: pointer; }
+.asl-dot-container > button:hover { background-color: rgb(239, 239, 239); }
+.asl-dots-svg { width: 20px; height: 20px; fill: #2a2a2a; cursor: pointer; }
+.asl-check { width: 16px; height: 16px; cursor: pointer; }
+
+/* Pagination */
+.asl-table-bottom { width: 100%; display: flex; gap: 20px; justify-content: space-between; align-items: center; padding: 14px 16px; background: hsl(0, 0%, 95%); border: 1px solid hsla(0,0%,0%,0.119); border-top: 0; }
+.asl-entries-info { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #2a2a2a; }
+.asl-entries-info > select { border: 1px solid #ccc; border-radius: 6px; padding: 3px 6px; font-size: 13px; color: #2a2a2a; background: #fff; cursor: pointer; }
+.asl-pagination-controls { display: flex; align-items: center; gap: 6px; }
+.asl-page-btn { padding: 6px 12px; background-image: linear-gradient(#0056b3, #405189); border: none; border-radius: 8px; font-size: 12px; font-weight: 500; color: #fff; cursor: pointer; transition: 0.2s; }
+.asl-page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.asl-page-btn.asl-page-active { background: #234e70; }
+.asl-page-num { font-size: 14px; color: #2a2a2a; padding: 4px 8px; cursor: pointer; }
