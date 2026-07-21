@@ -1,7 +1,11 @@
 # syntax=docker/dockerfile:1
 
 # Stage 1: Build the App
-FROM node:18-alpine AS build
+# node:20, not 18 — react-router@7.x requires Node >=20 (confirmed via
+# EBADENGINE warning from your own package.json's dependency tree, not
+# a guess). Building on 18 "mostly worked" via warning-only tolerance,
+# but isn't something to rely on long-term.
+FROM node:20-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
@@ -14,7 +18,7 @@ COPY package*.json ./
 # BuildKit cache mount: npm's download cache persists across builds without
 # being baked into any image layer — speeds up repeated local builds.
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci
+    npm install
 
 COPY . .
 
