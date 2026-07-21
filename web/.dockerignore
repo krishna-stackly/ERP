@@ -1,0 +1,22 @@
+# NOTE: unlike the backend, .env is INTENTIONALLY NOT excluded here.
+# Vite bakes VITE_* env vars into the JS bundle at BUILD time (not runtime
+# like Django) — if .env is missing from the build context, VITE_API_URL
+# would be `undefined` in the built app, a real breaking bug, not just a
+# style issue. This is safe only because .env now contains universal,
+# non-secret values (VITE_API_URL=/api, a relative path — same in every
+# environment). If real secrets are ever added to this .env, this decision
+# needs revisiting.
+
+node_modules/
+dist/
+build/
+
+.git/
+.github/
+
+# Editor/OS cruft
+.vscode/
+.idea/
+.DS_Store
+
+npm-debug.log*

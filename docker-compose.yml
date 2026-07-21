@@ -1,9 +1,9 @@
 # Local dev/staging parity for the 3-tier stack: mysql-db-qa -> backend-qa -> frontend.
 #
 # Run this from the parent directory containing both project folders as
-# siblings, e.g.:
-#   ./stackly-erp-backend-Qa/
-#   ./stackly-erp-frontend-Dev/
+# siblings, matching YOUR actual folder names:
+#   ./logic/    (backend)
+#   ./web/      (frontend)
 #   ./docker-compose.yml   <-- this file
 #
 # Service names below (mysql-db-qa, backend-qa, frontend) are deliberately
@@ -62,6 +62,16 @@ services:
       MEDIA_URL: /media/
     ports:
       - "8000:8000"   # exposed to host too, handy for hitting the API directly while debugging
+    healthcheck:
+      # Uses the /healthz/ endpoint we built specifically for this —
+      # checks the process is up AND the DB connection actually works,
+      # not just "container started". frontend's depends_on below waits
+      # on this being genuinely healthy, not just running.
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
 
   frontend:
     build:
@@ -69,7 +79,8 @@ services:
     container_name: frontend
     restart: unless-stopped
     depends_on:
-      - backend-qa
+      backend-qa:
+        condition: service_healthy
     environment:
       BACKEND_HOST: backend-qa   # <-- Compose service name, resolved via built-in DNS
       BACKEND_PORT: "8000"
