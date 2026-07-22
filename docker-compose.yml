@@ -29,7 +29,7 @@ services:
     build:
       context: ./logic
 
-    container_name: backend-qa:v1.0
+    container_name: backend-qa
     restart: unless-stopped
 
     depends_on:
@@ -53,7 +53,7 @@ services:
     build:
       context: ./web
 
-    container_name: frontend:v1.0
+    container_name: frontend
     restart: unless-stopped
 
     depends_on:
