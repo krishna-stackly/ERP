@@ -40,7 +40,7 @@ COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 # Kubernetes: set via env: in the container spec (or a ConfigMap).
 # NOTE: matches the "backend-qa" service name used in docker-compose.yml —
 # keep this in sync if the backend service is ever renamed.
-ENV BACKEND_HOST=backend-qa
+ENV BACKEND_HOST=backend-qa.internal
 ENV BACKEND_PORT=8000
 
 COPY --from=build /app/dist /usr/share/nginx/html

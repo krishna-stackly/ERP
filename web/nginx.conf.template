@@ -1,36 +1,55 @@
 # Nginx config template for the frontend container.
 #
-# This is a TEMPLATE, not the final config. The nginx:alpine base image
-# automatically runs `envsubst` on every file in /etc/nginx/templates/*.template
-# at container startup, substituting ${VAR} placeholders using the container's
-# environment variables, and writes the result to /etc/nginx/conf.d/<name>.conf.
+# This is a TEMPLATE, not the final config. The nginx:alpine image runs
+# envsubst on every file in /etc/nginx/templates/*.template at container
+# startup, replacing ${BACKEND_HOST} and ${BACKEND_PORT} with the runtime
+# environment variables.
 #
-# Why this matters for Kubernetes: it means ONE built image works in dev,
-# staging, and prod - you just set BACKEND_HOST / BACKEND_PORT as env vars
-# on the container (docker-compose service env, or the K8s Deployment spec).
-# You never rebuild the frontend image just to point it at a different backend.
+# One frontend image can therefore be deployed in Docker Compose,
+# EC2, Kubernetes, staging, or production without rebuilding.
 #
-# Required env vars (defaults set in Dockerfile, override at runtime/K8s):
-#   BACKEND_HOST  - docker-compose service name (e.g. "backend") or
-#                   K8s Service name (e.g. "backend-service")
-#   BACKEND_PORT  - port the backend listens on (e.g. 8000)
+# Required environment variables:
 #
-# Note: both Docker Compose service names and K8s Service names resolve to a
-# stable virtual IP that doesn't change as backing containers/Pods restart -
-# so a plain proxy_pass to the service name is all that's needed; no special
-# DNS re-resolution trick required (that's only relevant for headless services).
+# BACKEND_HOST
+#     Hostname that the frontend should proxy requests to.
+#
+#     Examples:
+#
+#       Docker Compose
+#           backend
+#
+#       AWS EC2
+#           backend.internal
+#
+#       Kubernetes
+#           backend
+#
+# BACKEND_PORT
+#     Backend listening port (typically 8000).
+#
+# The value supplied in BACKEND_HOST must be resolvable from inside the
+# frontend container.
+#
+# Examples of valid resolvers:
+#
+#   • Docker Compose DNS
+#   • AWS Route53 Private Hosted Zone / internal DNS
+#   • Kubernetes Service DNS
+#
+# Because only environment variables change, this template works unchanged
+# across all environments.
 
 server {
     listen 80;
 
-    # ---- Static frontend (React/Vite build output) ----
+    # React/Vite static files
     location / {
-        root   /usr/share/nginx/html;
-        index  index.html index.htm;
+        root /usr/share/nginx/html;
+        index index.html index.htm;
         try_files $uri $uri/ /index.html;
     }
 
-    # ---- Reverse proxy: browser calls /api/..., Nginx forwards to Django ----
+    # Reverse proxy -> Backend
     location /api/ {
         proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT}/api/;
 
@@ -40,14 +59,14 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
 
-        # Onboarding/file uploads use multipart form data - don't buffer to disk
         proxy_request_buffering off;
         client_max_body_size 20m;
     }
 
-    # ---- Django admin (only needed if you expose /admin/ through this proxy) ----
+    # Django admin
     location /admin/ {
         proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT}/admin/;
+
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -55,6 +74,7 @@ server {
     }
 
     error_page 500 502 503 504 /50x.html;
+
     location = /50x.html {
         root /usr/share/nginx/html;
     }
