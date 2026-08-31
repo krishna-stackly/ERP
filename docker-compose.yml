@@ -1,10 +1,13 @@
 services:
 
-  erp-backend:
+  erp-backend-qa:
 
-    image: indiadelhi001/erp-backend:${IMAGE_VERSION}
+    build:
+      context: ./backend
 
-    container_name: erp-backend
+    image: indiadelhi001/erp-backend:${VERSION}
+
+    container_name: erp-backend-qa
 
     restart: unless-stopped
 
@@ -15,15 +18,7 @@ services:
       - "8000:8000"
 
     healthcheck:
-
-      test:
-        [
-          "CMD",
-          "curl",
-          "-f",
-          "http://localhost:8000/healthz/"
-        ]
-
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz/"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,17 +27,22 @@ services:
 
   erp-frontend:
 
-    image: indiadelhi001/erp-frontend:${IMAGE_VERSION}
+    build:
+      context: ./frontend
+
+    image: indiadelhi001/erp-frontend:${VERSION}
 
     container_name: erp-frontend
 
     restart: unless-stopped
 
     depends_on:
-
-      erp-backend:
-
+      erp-backend-qa:
         condition: service_healthy
+
+    environment:
+      BACKEND_HOST: erp-backend-qa
+      BACKEND_PORT: "8000"
 
     ports:
       - "3000:80"
