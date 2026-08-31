@@ -34,7 +34,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 # Runtime Stage
 ###############################
 FROM python:3.10-slim-bookworm
-
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     TZ=Asia/Kolkata \
