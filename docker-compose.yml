@@ -1,4 +1,5 @@
 services:
+
   erp-mysql-db:
     image: mysql:8.0
     container_name: erp-mysql-db
@@ -25,11 +26,16 @@ services:
       timeout: 5s
       retries: 10
 
+
   erp-backend-qa:
+
     build:
       context: ./backend
 
-    container_name: indiadelhi001/erp-backend:{{version}}
+    image: indiadelhi001/erp-backend:${VERSION}
+
+    container_name: erp-backend-qa
+
     restart: unless-stopped
 
     depends_on:
@@ -49,11 +55,16 @@ services:
       retries: 5
       start_period: 15s
 
+
   erp-frontend:
+
     build:
       context: ./frontend
 
-    container_name: indiadelhi001/erp-frontend:{{ version}}
+    image: indiadelhi001/erp-frontend:${VERSION}
+
+    container_name: erp-frontend
+
     restart: unless-stopped
 
     depends_on:
@@ -61,13 +72,13 @@ services:
         condition: service_healthy
 
     environment:
-      BACKEND_HOST: erp-backend
+      BACKEND_HOST: erp-backend-qa
       BACKEND_PORT: "8000"
 
     ports:
       - "3000:80"
 
+
 volumes:
+
   mysql_data:
-
-
