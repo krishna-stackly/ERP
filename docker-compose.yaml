@@ -2,6 +2,9 @@ services:
 
   erp-backend-qa:
 
+    build:
+      context: ./backend
+
     image: indiadelhi001/erp-backend:${VERSION}
 
     container_name: erp-backend-qa
@@ -23,6 +26,9 @@ services:
 
 
   erp-frontend:
+
+    build:
+      context: ./frontend
 
     image: indiadelhi001/erp-frontend:${VERSION}
 
